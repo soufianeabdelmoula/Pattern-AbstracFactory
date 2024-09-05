@@ -1,0 +1,66 @@
+<section class="h-100 gradient-form mt-5">
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-sm-8 col-md-8 col-xl-4">
+        <div class="card rounded-3 text-black">
+          <div class="row g-0">
+            <div class="card-body p-md-2 mx-md-4 mt-md-3">
+              <div class="text-center">
+                <img src="assets/images/blason_marseille.png" style="width: 185px;" alt="logo">
+                <h1 class="mt-3 mt-lg-5 mb-3">RéfActeurs</h1>
+              </div>
+
+              <form [formGroup]="loginFormGroup" (ngSubmit)="authentification()">
+
+                <div class="row align-items-center">
+                  <div class="col-10 pt-3">
+                    <label class="col-form-label" for="login">Login<span class="etoileStyle"> * </span></label>
+                  </div>
+                  <div class="col-9 pe-0">
+                    <input type="text" id="login" class="form-control" placeholder="Login"  formControlName="login" required/>
+                  </div>
+                  <div class="col-12 mb-0 mt-3 py-0" *ngIf="loginFormGroup.get('login')?.hasError('required') && loginFormGroup.get('login')?.touched">
+                    <ul class="my-0 py-0">
+                      <li class="text-danger">L'identifiant est incorrect</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="row align-items-center">
+                  <div class="col-10  pt-3">
+                    <label class="col-form-label" for="password">Mot de passe<span class="etoileStyle"> * </span></label>
+                  </div>
+                  <div class="col-9 pe-0">
+                    <input type="{{this.isVisiblePassword? 'text': 'password'}}" id="password" class="form-control" placeholder="Mot de passe" formControlName="motDePasse" required/>
+                  </div>
+                  <div class="col-3 ps-0">
+                    <button (click)="this.isVisiblePassword  = !this.isVisiblePassword" mat-icon-button type="button">
+                      <mat-icon
+                        [fontIcon]="this.isVisiblePassword? 'visibility' : 'visibility_off'"
+                        color="primary"/>
+                    </button>                                    </div>
+                  <div class="col-12 mb-0 mt-3 py-0" *ngIf="!loginFormGroup.valid">
+                    <ul class="my-0 py-0">
+                      <li class="text-danger" *ngIf="loginFormGroup.get('motDePasse')?.hasError('required') && loginFormGroup.get('motDePasse')?.touched">
+                        Le mot de passe est incorrect
+                      </li>
+                    </ul>
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="pt-3 mb-3 pb-1 col-10">
+                    <button color="primary" mat-raised-button type="submit">
+                      <mat-icon fontIcon="login"/>
+                      Connexion
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,120 @@
+.body-r-acteur{
+  width: 100% !important;
+  padding-inline: 3%;
+  padding-block: 0;
+  margin: 1% 0 0 0;
+
+}
+.panel-r-acteur{
+  width: 100% !important;
+  margin: 0;
+  background-color: rgba(0, 0, 194, 0.07);
+  padding: 12px;
+}
+
+mat-card-header, mat-card-content{
+  background-color: white;
+  width: 100% !important;
+}
+
+.header{
+  margin: 0 0 20px 0;
+  padding: 0 0 20px 0;
+}
+
+.content{
+  margin: 0;
+  padding: 0;
+}
+
+.button-add{
+  color: rgba(34, 217, 6, 0.62);
+  font-size: 32px;
+}
+
+.button-add:hover {
+  color: #089404;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.button-delete{
+  color: rgba(203, 0, 0, 0.59);
+  font-size: 30px;
+  margin-right: 10px;
+}
+
+.button-delete:hover {
+  color: #cb0000;
+  font-size: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.example-margin {
+  margin: 0 10px;
+}
+form{
+  width: 100%;
+}
+
+span{
+  font-size: 18px;
+}
+
+.custom-row{
+  margin-bottom: 10px !important; /* Ajout de marge en bas pour l'espacement entre les lignes */
+}
+
+@media (max-width: 875px) {
+  .text-button {
+      display: none;
+  }
+}
+
+@media (min-width: 880px) {
+  .text-button {
+      margin-left: 5px;
+  }
+}
+button{
+  font-size: 12px;
+  & span {
+      font-size: 12px;
+  }
+}
+
+
+/* Structure tableau */
+.tableau-container {
+  position: relative;
+}
+
+.data-table-container {
+  position: relative;
+  min-height: 200px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  background-color: #02020A !important;
+  color: #FFFFFF;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  background-color: #e8e8f3;
+}
+
+.mat-mdc-raised-button.mat-gray {
+  color: #ffffff;
+  background-color: #716f6f;
+}

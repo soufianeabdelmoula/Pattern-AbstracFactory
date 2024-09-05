@@ -1,0 +1,15 @@
+.eye-password{
+    font-size: 25px;
+    font-weight: bold;
+    color: #039bfa;
+}
+
+@media (max-width: 768px) {
+    .eye-password{
+        display: none;
+    }
+}
+
+.etoileStyle{
+    color: #cb0000;
+}

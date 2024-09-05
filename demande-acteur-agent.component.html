@@ -1,0 +1,144 @@
+<div *ngIf="this.demande" class="d-flex flex-row justify-content-center">
+  <div class="d-flex flex-column col-6">
+    <div class="d-flex flex-row justify-content-between">
+      <div class="d-flex flex-column">
+        <label>Matricule <span class="asterisk">*</span> : </label>
+        <mat-form-field appearance="outline"  (click)="this.openDialog()" >
+          <input #search [(ngModel)]="this.matricule" [matAutocomplete]="auto" matInput placeholder="Matricule"
+                 disabled="{{isView}}"/>
+          <button *ngIf="!isView"color="primary" mat-icon-button matSuffix>
+            <mat-icon fontIcon="search"></mat-icon>
+          </button>
+
+          <mat-autocomplete #auto (optionSelected)="this.updateActeur($event.option.value)">
+            <mat-option *ngFor="let option of options$ | async" [value]="option">
+              {{option.idta}}{{option.idtn.padStart(4, '0')}} {{option.nomUsuel ? option.nomUsuel : option.nom}} {{option.prenomUsuel ? option.prenomUsuel : option.prenom}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="d-flex flex-column">
+        <label>Login <span class="asterisk">*</span> : </label>
+        <mat-form-field appearance="outline">
+          <input [(ngModel)]="demande.login" matInput placeholder="Login" disabled="{{isView}}"/>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-divider class="mt-2 mb-3"></mat-divider>
+    <div>
+      <div class="d-flex flex-row justify-content-between">
+        <div class="d-flex flex-column col-md-6 col-lg-3">
+          <label>Nom <span class="asterisk">*</span> : </label>
+          <mat-form-field appearance="outline">
+            <input [(ngModel)]="demande.nom" disabled matInput placeholder="Nom"/>
+          </mat-form-field>
+        </div>
+        <div class="d-flex flex-column col-md-6 col-lg-3">
+          <label>Nom marital : </label>
+          <mat-form-field appearance="outline">
+            <input [(ngModel)]="demande.nomMarital" disabled matInput placeholder="Nom marital"/>
+          </mat-form-field>
+        </div>
+        <div class="d-flex flex-column col-md-6 col-lg-3">
+          <label>Nom usuel : </label>
+          <mat-form-field appearance="outline">
+            <input [(ngModel)]="demande.nomUsuel" matInput placeholder="Nom usuel" disabled="{{isView}}"/>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="d-flex flex-row justify-content-between">
+        <div class="d-flex flex-column">
+          <label>Prénom <span class="asterisk">*</span> : </label>
+          <mat-form-field appearance="outline">
+            <input [(ngModel)]="demande.prenom" disabled matInput maxlength="20" placeholder="Prénom"/>
+          </mat-form-field>
+        </div>
+        <div class="d-flex flex-column">
+          <label>Prénom usuel : </label>
+          <mat-form-field appearance="outline">
+            <input [(ngModel)]="demande.prenomUsuel" matInput placeholder="Prénom usuel" disabled="{{isView}}"/>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <mat-divider class="mt-2 mb-3"></mat-divider>
+    <span class="mb-2 mx-auto"> Coordonnées de contact personnelles : </span>
+    <div>
+      <div class="d-flex flex-row justify-content-between">
+
+        <div class="d-flex flex-column">
+          <label>Adresse de messagerie <span class="asterisk">*</span> : </label>
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Adresse de messagerie" disabled="{{isView}}" [(ngModel)]="demande.email"
+                   type="email" required #email="ngModel">
+          </mat-form-field>
+        </div>
+        <div class="d-flex flex-column">
+          <label>Téléphone portable <span class="asterisk">*</span> : </label>
+          <mat-form-field appearance="outline">
+            <input [(ngModel)]="demande.telExterne" disabled="{{isView}}" matInput placeholder="Téléphone portable"
+                   type="tel" required #telExterne="ngModel">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <mat-divider class="mt-2 mb-3"></mat-divider>
+
+    <mat-checkbox #terrain disabled="{{isView}}" [checked]="isView && !!demande.celluleTerrain"
+                  style="margin-left: auto;">Affectation terrain
+    </mat-checkbox>
+
+    <div class="row">
+      <div class="col-6">
+        <app-selecteur-cellule (select)="updateCelluleOfficielle($event)"
+                               [cellule]="this.cellule"
+                               [disabled]="true"
+                               [isView]="isView"
+                               [required]="!isView"
+        ></app-selecteur-cellule>
+        <label>Adresse: {{cellule ? cellule.adresse : ''}}</label>
+      </div>
+      <div class="col-6" *ngIf="terrain.checked">
+        <app-selecteur-cellule (select)="updateCelluleTerrain($event)" [cellule]="celluleTerrain"
+                               [terrain]="true"
+                               [disabled]="isView"
+                               [isView]="isView"
+                               [required]="!isView"
+        ></app-selecteur-cellule>
+        <label>Adresse: {{celluleTerrain ? celluleTerrain.adresse : '' }}</label>
+      </div>
+    </div>
+
+    <mat-divider class="mt-2 mb-3" *ngIf="!isView"></mat-divider>
+    <div class="d-flex flex-column" *ngIf="!isView">
+      <label>Pièces jointes :</label>
+      <ngx-dropzone (change)="onSelect($event)">
+        <ngx-dropzone-label>Déposez les pièces jointes ici
+          <mat-icon class="align-bottom" fontIcon="upload"/>
+        </ngx-dropzone-label>
+        <ngx-dropzone-preview (removed)="onRemove(f)" *ngFor="let f of files" [removable]="true">
+          <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
+        </ngx-dropzone-preview>
+      </ngx-dropzone>
+    </div>
+    <mat-divider class="mt-2 mb-3"></mat-divider>
+
+    <div class="d-flex justify-content-center flex-column mt-2" *ngIf="!isView">
+      <label>Commentaire <span class="asterisk">*</span> : </label>
+      <mat-form-field appearance="outline">
+      <textarea [(ngModel)]="this.demande.commentaire" matInput
+                maxlength="1024" placeholder="Veuillez saisir un commentaire" disabled="{{isView}}"></textarea>
+        <mat-hint class="justify-content-end">Caractères
+          : {{this.demande.commentaire ? this.demande.commentaire.length : 0}}
+          / 1024
+        </mat-hint>
+        <mat-error *ngIf="this.demande.commentaire && this.demande.commentaire.length == 0" class="justify-content-end">
+          Veuillez saisir un commentaire.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</div>

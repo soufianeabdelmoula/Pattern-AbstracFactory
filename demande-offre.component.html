@@ -1,0 +1,48 @@
+<app-titre [titre]="'Demander une habilitation'"></app-titre>
+<div class="d-flex flex-column" fxFlexFill>
+  <mat-stepper #stepper color="accent" linear>
+    <mat-step [stepControl]="choixOffreFormControl" errorMessage="Le formulaire contient des erreurs."
+              label="Choix de l'offre">
+      <app-demande-offre-choix-offre (selectActeur)="this.selectActeur($event)"
+                                     (selectOffre)="this.selectOffre($event)"
+                                     (setCommentaire)="this.setCommentaire($event)"
+                                     (updatePj)="this.updatePj($event)"
+                                     [formGroup]="choixOffreFormControl"
+                                     class="mt-2"></app-demande-offre-choix-offre>
+    </mat-step>
+    <mat-step *ngIf="!this.demande.offre || !questions || questions.length" label="Question(s)">
+      <app-demande-offre-questions (updateReponses)="this.updateReponses($event)" [mode]="mode" [questions]="questions"
+                                   class="mt-2"></app-demande-offre-questions>
+    </mat-step>
+    <mat-step *ngIf="mode != 'suppression' && (!this.demande.offre || !profils || profils.length)" label="Profil(s)">
+      <app-demande-offre-profils (updateProfils)="this.updateProfils($event)" [profils]="profils"
+                                 class="mt-2"></app-demande-offre-profils>
+    </mat-step>
+    <mat-step label="Récapitulatif">
+      <app-demande-offre-recapitulatif [demande]="demande" [questions]="questions"
+                                       class="mt-2"></app-demande-offre-recapitulatif>
+    </mat-step>
+  </mat-stepper>
+  <div class="d-flex justify-content-end bottom-0 mb-2">
+    <div class="d-flex w-25 align-self-end justify-content-around">
+      <button (click)="stepper.previous()" [disabled]="stepper._getFocusIndex()==0" class="success" mat-raised-button>
+        <mat-icon fontIcon="chevron_left"/>
+        Précédent
+      </button>
+      <button (click)="stepper.next()"
+              *ngIf="stepper._getFocusIndex() != (stepper? stepper._steps? stepper._steps.length -1 : 3 : 3)"
+              [disabled]="this.isInvalid()"
+              color="primary" mat-raised-button>
+        <mat-icon fontIcon="chevron_right"/>
+        Suivant
+      </button>
+      <button (click)="this.saveDemande()"
+              *ngIf="stepper._getFocusIndex() == (stepper? stepper._steps? stepper._steps.length -1 : 3 : 3)"
+              [disabled]="this.demande.isValid() != undefined? !this.demande.isValid() : true"
+              color="primary" mat-raised-button>
+        <mat-icon fontIcon="save"/>
+        Enregistrer
+      </button>
+    </div>
+  </div>
+</div>

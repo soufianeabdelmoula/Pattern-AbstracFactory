@@ -1,0 +1,33 @@
+<app-titre [titre]="'Création d\'un acteur'"></app-titre>
+
+<div class="d-flex flex-column col-12 mt-2">
+  <div class="d-flex flex-row justify-content-center mb-3 align-items-center">
+    <label>Type d'acteur <span class="asterisk">*</span> : </label>
+    <mat-radio-group (change)="this.changeTypoActeur($event)" [(ngModel)]="this.demande.typeActeur" disabled="{{isView}}">
+      <mat-radio-button [checked]="this.demande.typeActeur == ConstantsGlobals.TYPE_AGENT"
+                        [value]="ConstantsGlobals.TYPE_AGENT" class="ms-2">Agent
+      </mat-radio-button>
+      <mat-radio-button [value]="ConstantsGlobals.TYPE_EXTERNE" class="ms-2">Externe</mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <app-demande-acteur-agent *ngIf="this.demande.typeActeur == ConstantsGlobals.TYPE_AGENT"
+                            [demande]="demande"
+                            [isView]="isView"
+                            [celluleActeur]="celluleActeur$ | async"
+                            [celluleTerrainActeur]="celluleTerrainActeur$ | async"
+  ></app-demande-acteur-agent>
+  <app-demande-acteur-externe
+    *ngIf="this.demande.typeActeur == ConstantsGlobals.TYPE_EXTERNE"
+    [demande]="demande"
+    [isView]="isView"
+    [celluleActeurExtern]="celluleActeur$ | async"
+  ></app-demande-acteur-externe>
+
+</div>
+<div *ngIf="this.demande.typeActeur && !isView" class="d-flex flex-row justify-content-end me-5">
+  <button (click)="this.saveDemande()" [disabled]="!this.demande.valid()"
+          color="primary" mat-raised-button>
+    <mat-icon fontIcon="save"/>
+    Enregistrer
+  </button>
+</div>

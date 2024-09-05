@@ -1,0 +1,13 @@
+<div class="container p-3">
+  <label class="mr-2">Historique Acteurs habilités :</label>
+  <mat-checkbox (change)="onCheckboxChange($event)"></mat-checkbox>
+  <app-tableau-generique
+    [columnDefinition]="columns"
+    [tableData]="data">
+  </app-tableau-generique>
+
+  <button mat-raised-button color="accent" class="btn btn-dark" [disabled]="data.length == 0" (click)="exportCsv()">
+    <i class="fa fa-download btn-warning" aria-hidden="true"></i>
+    <span class="ms-3">Exporter</span>
+  </button>
+</div>

@@ -1,0 +1,261 @@
+<div class="">
+  <mat-tab-group mat-align-tabs="start" mat-stretch-tabs="false">
+    <mat-tab label="Généralités">
+      <div class="p-4">
+        <form [formGroup]="form" class="form">
+          <div class="form-group row mb-4">
+            <label class="col-md-2 col-form-label text-start align-self-center"> Nom <span
+              class="asterisk"> * </span>:</label>
+            <mat-form-field appearance="outline" class="col-md-4">
+              <input formControlName="libelle" matInput type="text"/>
+            </mat-form-field>
+
+            <div class="col-md-1 align-self-center"></div>
+
+            <label class="col-md-2 col-form-label  text-start align-self-center">AD :</label>
+            <div class="col d-flex mt-2 align-items-center">
+              <mat-checkbox formControlName="ad"></mat-checkbox>
+            </div>
+          </div>
+
+
+          <div class="form-group row mb-4">
+            <label class="col-md-2 col-form-label text-start align-self-center"
+            > Code MEGA <span class="asterisk"> * </span> :</label
+            >
+            <mat-form-field appearance="outline" class="col-md-4">
+              <input formControlName="codeOffre" matInput type="text"/>
+            </mat-form-field>
+            <div class="col-md-1" align-self-center></div>
+            <label class="col-md-2 col-form-label text-start align-self-center">Offre secondaire :</label>
+            <div class="col d-flex mt-2 align-items-center">
+              <mat-checkbox formControlName="topSecondaire"></mat-checkbox>
+            </div>
+          </div>
+          <div class="form-group row mb-4">
+            <label class="col-md-2 col-form-label text-start"
+            > DGA :</label
+            >
+            <mat-form-field appearance="outline" class="col-md-4">
+              <input formControlName="label" matInput type="text"/>
+            </mat-form-field>
+            <div class="col-md-1 align-self-center"></div>
+            <label
+              class="col-md-2 col-form-label text-start align-self-center">Suppression automatique :</label>
+            <div class="col d-flex mt-2 align-items-center">
+              <mat-checkbox
+                formControlName="suppressionAuto"
+              ></mat-checkbox>
+            </div>
+          </div>
+          <div class="form-group row mb-4">
+            <label
+              class="col-md-2 col-form-label text-start"
+            >Nom du responsable de l'offre:</label
+            >
+            <div class="col-md-4 d-flex align-items-center">
+              <mat-form-field appearance="outline" class="input-group" (click)="openDialog()">
+                <input formControlName="nomResponsable" matInput readonly/>
+                <button
+
+                  [disabled]="isEditMode"
+                  color="primary"
+                  mat-icon-button
+                  matSuffix
+                >
+                  <mat-icon fontIcon="search"></mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+
+
+            <div class="col-md-7">
+            </div>
+
+
+            <div class="form-group row mb-4">
+
+
+              <div class="form-group row mb-4">
+                <label class="col-md-2 col-form-label text-start"> Metier :</label>
+                <div class="col-md-4 d-flex align-items-center">
+                  <mat-checkbox formControlName="metier"></mat-checkbox>
+                </div>
+              </div>
+
+              <div class="form-group row mb-4">
+                <label class="col-md-2 col-form-label text-start"> Transverse :</label>
+                <div class="col-md-4 d-flex align-items-center">
+                  <mat-checkbox formControlName="transverse"></mat-checkbox>
+                </div>
+              </div>
+
+
+
+
+            </div>
+            <ng-container *ngIf="form.get('suppressionAuto').value">
+              <label
+                class="col-md-2 col-form-label text-start"
+              >Délai (en nombre de jours) :</label>
+              <div class="col-md-1">
+                <input
+                  class="form-control col-md-1"
+                  formControlName="nbJourSuppAuto"
+                  type="number"
+                />
+              </div>
+            </ng-container>
+          </div>
+          <div class="form-group row mb-4">
+            <label class="col-md-2 col-form-label text-start"
+            > Description <span class="asterisk"> * </span>:</label
+            >
+            <mat-form-field class="col-md-4">
+              <textarea
+                formControlName="description"
+                matInput
+                placeholder="Description de l'offre"
+                rows="4"
+              ></textarea>
+            </mat-form-field>
+
+
+            <div class="col">
+              <dt class="text-start mb-3">Impact des changements d'affectation</dt>
+              <div class="col">
+
+                <label class="col-md-3 col-form-label text-start"
+                > Suppression:</label>
+                <mat-form-field appearance="outline" class="col-md-4">
+                  <mat-select formControlName="nivSupp">
+                    <mat-option>None</mat-option>
+                    <mat-option
+                      *ngFor="let type of getList()"
+                      [value]="SupModMap.get(type)"
+                    >{{ type }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+              <div class="col">
+
+                <label class="col-md-3 col-form-label text-start"
+                > Modification:</label>
+                <mat-form-field appearance="outline" class="col-md-4">
+                  <mat-select formControlName="nivMod">
+                    <mat-option>None</mat-option>
+                    <mat-option
+                      *ngFor="let type of getList()"
+                      [value]="SupModMap.get(type)"
+                    >{{ type }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row mb-4">
+            <dt class="text-start mb-3">Dépendances</dt>
+            <label class="col-md-2 col-form-label text-start align-self-center"
+            >Accord préalable :</label
+            >
+            <div class="col d-flex mt-2 align-items-center align-self-center">
+              <mat-checkbox formControlName="topAccord"></mat-checkbox>
+            </div>
+            <app-tableau-generique
+              (checkChanges)="this.updateCheckedElements($event)"
+              [columnDefinition]="columns"
+              [displayCheckboxAction]="true"
+              [searchable]="false"
+              [tableData]="data"
+            ></app-tableau-generique>
+          </div>
+        </form>
+
+        <div class="d-flex align-items-center justify-content-center">
+          <button
+            mat-raised-button
+            type="button"
+            class="btn btn-sm btn-success m-1"
+            color="accent"
+            (click)="chooseOffres()"
+            [disabled]="isEditMode"
+            class="btn btn-sm btn-primary m-3"
+            type="button"
+          >
+            Ajouter
+          </button>
+          <button
+            type="button"
+            (click)="deleteSelectedOffres()"
+            [disabled]="isEditMode"
+            mat-raised-button color="warn"
+          >
+            Supprimer
+          </button>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab *ngIf="idOffre" label="Acteurs habilités">
+      <app-acteurs-habilites></app-acteurs-habilites>
+    </mat-tab>
+    <mat-tab label="Questions">
+      <app-question-offre
+        (questionsEvent)="updateQuestions($event)"
+        [isEditMode]="isEditMode"
+      ></app-question-offre>
+    </mat-tab>
+    <mat-tab *ngIf="form?.get('ad')?.value" label="AD">
+      <app-groupe-applicatif-ad
+        (adGroupEvent)="updateAdGroup($event)"
+        [isEditMode]="isEditMode"
+      ></app-groupe-applicatif-ad>
+    </mat-tab>
+  </mat-tab-group>
+  <mat-divider class="mb-4 mx-4"/>
+  <div
+    *ngIf="!isEditMode"
+    class="d-flex align-items-center justify-content-center"
+  >
+    <div class="d-flex">
+      <button
+        type="button"
+        class="btn btn-sm  d-flex align-items-center me-2"
+        (click)="saveOffre()"
+        [disabled]="form.invalid"
+        mat-raised-button color="primary">
+        <mat-icon fontIcon="save"></mat-icon>
+        <span class="ms-1">Enregistrer</span>
+      </button>
+
+      <button mat-raised-button
+              color="warn"
+              type="button"
+              class="btn btn-sm btn-secondary d-flex align-items-center"
+              (click)="endEditMode()">
+        <span class="me-1">Annuler</span>
+      </button>
+    </div>
+
+
+  </div>
+  <div
+    *ngIf="isEditMode"
+    class="d-flex align-items-center justify-content-center mb-3"
+  >
+    <button
+      type="button"
+      color="primary" mat-raised-button
+      (click)="editOffre()"
+      class="btn btn-sm btn-info"
+      style="display: flex; align-items: center"
+      type="button"
+    >
+      <mat-icon style="margin-right: 5px">edit</mat-icon>
+      Modifier
+    </button>
+  </div>
+</div>

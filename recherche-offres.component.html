@@ -1,0 +1,87 @@
+
+<div class="body-r-acteur" >
+  <mat-card class="frosted-glass row panel-r-acteur">
+      <mat-card-header class="frosted-glass row header p-3" [formGroup]="myForm">
+          <div class="col-12">
+              <div class="row custom-row">
+                  <mat-form-field class="col-2" appearance="outline" >
+                    <input formControlName="libelle"  matInput placeholder="Nom de l'offre"  (keypress)="onKeyPress($event)"/>
+                  </mat-form-field>
+                  <mat-form-field class="col-2" appearance="outline">
+                    <input formControlName="codeMega" matInput placeholder="Code MEGA"  (keypress)="onKeyPress($event)"/>
+                  </mat-form-field>
+              </div>
+
+              <div class="row custom-row">
+                  <div class="col-4">
+                    <mat-form-field class="input-group" appearance="outline" (click)="openDialog()">
+                        <input formControlName="nomResponsable" matInput placeholder="Responsable de l'offre" readonly/>
+                        <button  color="primary" mat-icon-button matSuffix>
+                            <mat-icon fontIcon="search"></mat-icon>
+                        </button>
+                    </mat-form-field>
+                  </div>
+                <div class="row custom-row">
+                  <mat-form-field class="col-2" appearance="outline">
+                    <input formControlName="label" matInput placeholder="DGA" (keypress)="onKeyPress($event)"/>
+                  </mat-form-field>
+                </div>
+
+                <mat-checkbox formControlName="metier">Metier</mat-checkbox>
+                <mat-checkbox formControlName="transverse">Transverse</mat-checkbox>
+
+              </div>
+              <div class="row custom-row py-2">
+                  <div class="col-8"></div>
+                  <div class="col-2">
+                    <button class="btn btn-secondary" type="reset" (click)="resetFilter()"
+                            mat-raised-button>
+                      <i class="fa fa-repeat" aria-hidden="true"></i>
+                      <span class="text-button">Réinitialiser</span>
+                    </button>
+                  </div>
+                  <div class="col-2 button-reset">
+                      <button mat-raised-button color="primary" type="submit" (click)="search()">
+                          <i class="fa fa-search"  aria-hidden="true"></i>
+                          <span class="text-button">Rechercher</span>
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </mat-card-header>
+      <mat-card-content class="frosted-glass content p-3">
+        <app-tableau-generique (checkChanges)="this.updateCheckedElements($event)"
+                               [columnDefinition]="columns"
+                               [displayCheckboxAction]="true"
+                               [searchable]="false"
+                               (actionCalled)="selectOffre($event)"
+                               (pageEventCalled)="this.pageEvent($event)"
+                               [selectionnable]="true"
+                               [enableBackendPagination]="true"
+                               [enableBackendSearch]="true"
+                               [tableData]="dataList"></app-tableau-generique>
+
+        <div class="mt-5" *ngIf="!usedOutside">
+          <button class="btn btn-danger" color="warn" [disabled]="isButtonDisabled()" (click)="deleteOffres()"
+                  mat-raised-button>
+            <i class="fa fa-trash btn-warning" aria-hidden="true"></i>
+            <span class="ms-3">Supprimer</span>
+          </button>
+        </div>
+        <div class="d-flex align-items-center justify-content-center mt-5" *ngIf="usedOutside">
+          <button mat-raised-button color="primary" [disabled]="isButtonDisabled()" (click)="chooseOffres()">
+            <span class="ms-3">Sélectionner</span>
+          </button>
+        </div>
+
+      </mat-card-content>
+  </mat-card>
+
+</div>
+
+<div class="d-flex flex-row justify-content-center mt-3">
+  <button color="accent" mat-raised-button (click)="getExportOffre()">
+    <mat-icon fontIcon="cloud_download"></mat-icon>
+    Exporter
+  </button>
+</div>
